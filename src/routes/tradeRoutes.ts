@@ -1,3 +1,4 @@
+import express from "express";
 import {
   createTrade,
   deleteTrade,
@@ -5,9 +6,11 @@ import {
   getTrades,
   updateTrade,
 } from "@controllers/tradeController";
-import express from "express";
+import { protect } from "middlewares/authMiddleware";
 
 const router = express.Router();
+
+router.use(protect);
 
 router.route("/").get(getTrades).post(createTrade);
 

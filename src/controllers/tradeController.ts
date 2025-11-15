@@ -4,14 +4,16 @@ import { Request, Response } from "express";
 //get all trades
 
 export const getTrades = async (req: Request, res: Response) => {
-  const trades = await Trade.find();
+  const userId = (req as any).userId;
+  const trades = await Trade.find({ userId });
   res.json(trades);
 };
 
 //get trade by id
 
 export const getTradeById = async (req: Request, res: Response) => {
-  const trade = await Trade.findById(req.params.id);
+  const userId = (req as any).userId;
+  const trade = await Trade.findOne({ _id: req.params.id, userId });
   if (!trade) res.status(404).send({ message: "Trade not found" });
   res.json(trade);
 };
@@ -19,7 +21,8 @@ export const getTradeById = async (req: Request, res: Response) => {
 // post create trade
 
 export const createTrade = async (req: Request, res: Response) => {
-  const trade = new Trade(req.body);
+  const userId = (req as any).userId;
+  const trade = new Trade({ ...req.body, userId });
   const savedTrade = await trade.save();
   res.status(201).json(savedTrade);
 };
@@ -27,9 +30,14 @@ export const createTrade = async (req: Request, res: Response) => {
 //update trade by id
 
 export const updateTrade = async (req: Request, res: Response) => {
-  const updateTrade = await Trade.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const userId = (req as any).userId;
+  const updateTrade = await Trade.findByIdAndUpdate(
+    { _id: req.params.id, userId },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!updateTrade) res.status(404).send({ message: "Trade not found" });
   res.json(updateTrade);
 };
@@ -37,7 +45,11 @@ export const updateTrade = async (req: Request, res: Response) => {
 //delete trade by id
 
 export const deleteTrade = async (req: Request, res: Response) => {
-  const deleteTrade = await Trade.findByIdAndDelete(req.params.id);
+  const userId = (req as any).userId;
+  const deleteTrade = await Trade.findOneAndDelete({
+    _id: req.params.id,
+    userId,
+  });
   if (!deleteTrade) res.status(404).send({ message: "Trade not found" });
   res.json({ message: "Trade deleted successfully" });
 };

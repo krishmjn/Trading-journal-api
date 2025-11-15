@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { ConnectDb } from "@config/db";
 import tradeRoutes from "@routes/tradeRoutes";
+import authRoutes from "@routes/authRoutes";
 import { errorHandler } from "middlewares/errorHandler";
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("api/trades", tradeRoutes);
+app.use("api/auth", authRoutes);
 
 app.use(errorHandler);
 app.listen(PORT, () => {

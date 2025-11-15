@@ -9,6 +9,7 @@ export interface ITrade extends Document {
   quantity: number;
   profitLoss?: number;
   profitLossPercentage?: number;
+  userId: mongoose.Types.ObjectId;
 }
 const TradeSchema: Schema = new Schema({
   date: { type: Date, required: true },
@@ -19,6 +20,11 @@ const TradeSchema: Schema = new Schema({
   quantity: { type: Number, required: true },
   profitLoss: { type: Number, required: false },
   profitLossPercentage: { type: Number, required: false },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 export default mongoose.model<ITrade>("Trade", TradeSchema);
