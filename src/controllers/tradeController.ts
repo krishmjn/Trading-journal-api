@@ -22,7 +22,8 @@ export const getTradeById = async (req: Request, res: Response) => {
 
 export const createTrade = async (req: Request, res: Response) => {
   const userId = (req as any).userId;
-  const trade = new Trade({ ...req.body, userId });
+  const setupImage = req?.file?.path;
+  const trade = new Trade({ ...req.body, setupImage, userId });
   const savedTrade = await trade.save();
   res.status(201).json(savedTrade);
 };
@@ -31,9 +32,11 @@ export const createTrade = async (req: Request, res: Response) => {
 
 export const updateTrade = async (req: Request, res: Response) => {
   const userId = (req as any).userId;
+  const setupImage = req?.file?.path;
+  const updateData = { ...req.body, setupImage };
   const updateTrade = await Trade.findByIdAndUpdate(
     { _id: req.params.id, userId },
-    req.body,
+    updateData,
     {
       new: true,
     }
