@@ -1,12 +1,12 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
 import cors from "cors";
 import { ConnectDb } from "@config/db";
 import tradeRoutes from "@routes/tradeRoutes";
 import authRoutes from "@routes/authRoutes";
-import { errorHandler } from "middlewares/errorHandler";
 
-dotenv.config();
 ConnectDb();
 
 const app = express();
@@ -22,20 +22,10 @@ app.use(
 
 // Body parser AFTER CORS
 app.use(express.json());
-// 3. Add a test route to verify server is working
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Server is running" });
-});
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
 
 // Routes
 app.use("/api/trades", tradeRoutes);
 app.use("/api/auth", authRoutes);
-
-// Error handler LAST
-app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

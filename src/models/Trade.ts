@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface ITrade extends Document {
   date: Date;
-  setupImage: string; //url or bse64
+  setupImage: string; // url
   reason: string;
   status: "open" | "closed";
   entryPrice: number;
