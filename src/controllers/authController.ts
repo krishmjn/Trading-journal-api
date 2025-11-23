@@ -16,6 +16,7 @@ export const registerController = async (req: Request, res: Response) => {
     email,
     password: hashedPassword,
   });
+  await newUser.save();
   res
     .status(201)
     .json({ message: "User registered successfully", user: newUser });
