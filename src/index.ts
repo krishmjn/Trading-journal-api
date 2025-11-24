@@ -12,15 +12,14 @@ ConnectDb();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:5173";
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://trading-journal-ui.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
 // CORS must be FIRST
-app.use(
-  cors({
-    origin: corsOrigin,
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
 
 // Body parser AFTER CORS
 app.use(express.json());
