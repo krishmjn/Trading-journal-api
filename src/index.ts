@@ -6,6 +6,7 @@ import cors from "cors";
 import { ConnectDb } from "@config/db";
 import tradeRoutes from "@routes/tradeRoutes";
 import authRoutes from "@routes/authRoutes";
+import strategyRoutes from "@routes/strategyRoutes";
 
 ConnectDb();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 // Routes
 app.use("/api/trades", tradeRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/strategies", strategyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
